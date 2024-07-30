@@ -23,7 +23,7 @@ RUN chmod +x /usr/local/bin/rancher-gen \
 COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
 
 #Copying all templates and script	
-COPY ./app/files/ng /app/
+COPY ./app/ /app/
 WORKDIR /app/
 
 # Seting up repertories & Configure Nginx and apply fix for very long server names
