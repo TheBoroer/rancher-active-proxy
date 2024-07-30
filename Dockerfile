@@ -17,7 +17,7 @@ ADD libs/rancher-gen /usr/local/bin/rancher-gen
 # 	&& rm -f /tmp/rancher-gen-rap.zip
 
 RUN chmod +x /usr/local/bin/rancher-gen \
-    && chmod u+x /usr/local/bin/forego \
+    && chmod u+x /usr/local/bin/forego
 
 # copy config files etc
 COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
