@@ -19,8 +19,11 @@ ADD libs/rancher-gen /usr/local/bin/rancher-gen
 RUN chmod +x /usr/local/bin/rancher-gen \
     && chmod u+x /usr/local/bin/forego \
 
+# copy config files etc
+COPY ./etc/nginx/nginx.conf /etc/nginx/nginx.conf
+
 #Copying all templates and script	
-COPY /app/ /app/
+COPY ./app/files/ng /app/
 WORKDIR /app/
 
 # Seting up repertories & Configure Nginx and apply fix for very long server names
