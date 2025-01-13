@@ -1,0 +1,15 @@
+name: default
+
+kind: pipeline
+
+steps:
+  - name: build-branch
+    image: plugins/docker
+    settings:
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      repo: boro/rancher-active-proxy
+      tags:
+        - "latest"
