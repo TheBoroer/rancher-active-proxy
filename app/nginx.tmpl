@@ -75,7 +75,8 @@ server {
 server {
 	server_name {{ $host }};
 	{{- range $port := $https_ports }}
-	listen {{$port}} ssl http2 {{ $default_server }};
+	listen {{$port}} ssl {{ $default_server }};
+	http2  on;
 	{{- end }}
 	access_log /var/log/nginx/access.log vhost;
 
@@ -226,7 +227,8 @@ server {
 server {
 	server_name {{ $host }};
 	{{- range $port := $https_ports }}
-	listen {{$port}} ssl http2 {{ $default_server }};
+	listen {{$port}} ssl {{ $default_server }};
+	http2  on;
 	{{- end }}
 	access_log /var/log/nginx/access.log vhost;
 
@@ -338,7 +340,8 @@ server {
 {{- if (and (exists "/etc/nginx/certs/default.crt") (exists "/etc/nginx/certs/default.key")) }}
 server {
 	server_name _; # This is just an invalid value which will never trigger on a real hostname.
-	listen 443 ssl http2;
+	listen 443 ssl;
+	http2  on;
 	{{- range $port := $https_ports }}
 	{{- if ne $port "443" }}
 	listen {{ $port }};
