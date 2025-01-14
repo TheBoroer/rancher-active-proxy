@@ -2,7 +2,7 @@
 {{- if not .FIRST.Get -}}
 	upstream {{.HOST}} {
 	# TODO: move keepalive into a rap label
-	keepalive 8;
+	keepalive 32;
 {{- end -}}
 {{ if .ONLINE }}
 	# Access through rancher managed network
