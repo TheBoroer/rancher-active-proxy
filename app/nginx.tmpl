@@ -38,6 +38,7 @@ include /etc/nginx/vhost.d/default_server;
 {{- $cert := .FIRST.Labels.GetValue "rap.cert_name" $vhostCert }}
 {{- $token := .FIRST.Labels.GetValue "rap.server_tokens" "" }}
 {{- $body_size := .FIRST.Labels.GetValue "rap.client_max_body_size" "" }}
+{{- $client_body_buffer_size := .FIRST.Labels.GetValue "rap.client_body_buffer_size" "" }}
 {{- $le_bypass := .FIRST.Labels.GetValue "rap.le_bypass" "" }}
 {{- $timeout := .FIRST.Labels.GetValue "rap.timeout" "" }}
 
@@ -58,6 +59,9 @@ server {
 	{{- end }}
 	{{- if (ne $body_size "") }}
 	client_max_body_size {{$body_size}};
+	{{- end }}
+	{{- if (ne $client_body_buffer_size "") }}
+	client_body_buffer_size {{$client_body_buffer_size}};
 	{{- end }}
 	access_log /var/log/nginx/access.log vhost;
 	location / {
