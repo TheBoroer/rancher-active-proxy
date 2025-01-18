@@ -55,6 +55,8 @@ server {
 	{{- range $port := $http_ports }}
 	listen {{$port}} {{ $default_server }};
 	{{- end }}
+	access_log /var/log/nginx/access.log vhost;
+	
 	{{- if (ne $token "") }}
 	server_tokens {{$token}};
 	{{- end }}
@@ -67,7 +69,7 @@ server {
 	{{- if (ne $client_body_temp_path "") }}
 	client_body_temp_path {{$client_body_temp_path}};
 	{{- end }}
-	access_log /var/log/nginx/access.log vhost;
+	
 	location / {
         return 301 https://$host:{{(first $https_ports)}}$request_uri;
   }
@@ -93,6 +95,12 @@ server {
 	{{- end }}
 	{{- if (ne $body_size "") }}
 	client_max_body_size {{$body_size}};
+	{{- end }}
+	{{- if (ne $client_body_buffer_size "") }}
+	client_body_buffer_size {{$client_body_buffer_size}};
+	{{- end }}
+	{{- if (ne $client_body_temp_path "") }}
+	client_body_temp_path {{$client_body_temp_path}};
 	{{- end }}
 	
 	{{- if (ne $limit_req "") }}
@@ -186,6 +194,12 @@ server {
 	{{- if (ne $body_size "") }}
 	client_max_body_size {{$body_size}};
 	{{- end }}
+	{{- if (ne $client_body_buffer_size "") }}
+	client_body_buffer_size {{$client_body_buffer_size}};
+	{{- end }}
+	{{- if (ne $client_body_temp_path "") }}
+	client_body_temp_path {{$client_body_temp_path}};
+	{{- end }}
 
 	{{- if (exists (printf "/etc/nginx/vhost.d/%s" $host)) }}
 	include {{ printf "/etc/nginx/vhost.d/%s" $host }};
@@ -237,6 +251,12 @@ server {
 	{{- end }}
 	{{- if (ne $body_size "") }}
 	client_max_body_size {{$body_size}};
+	{{- end }}
+	{{- if (ne $client_body_buffer_size "") }}
+	client_body_buffer_size {{$client_body_buffer_size}};
+	{{- end }}
+	{{- if (ne $client_body_temp_path "") }}
+	client_body_temp_path {{$client_body_temp_path}};
 	{{- end }}
 
 	return 500;
