@@ -39,7 +39,7 @@ include /etc/nginx/vhost.d/default_server;
 {{- $token := .FIRST.Labels.GetValue "rap.server_tokens" "" }}
 {{- $body_size := .FIRST.Labels.GetValue "rap.client_max_body_size" "" }}
 {{- $client_body_buffer_size := .FIRST.Labels.GetValue "rap.client_body_buffer_size" "" }}
-{{- $client_body_temp_path := .FIRST.Labels.GetValue "rap.client_body_temp_path" "" }}
+{{- $client_body_temp_path := .FIRST.Labels.GetValue "rap.client_body_temp_path" "/tmp" }}
 {{- $le_bypass := .FIRST.Labels.GetValue "rap.le_bypass" "" }}
 {{- $timeout := .FIRST.Labels.GetValue "rap.timeout" "" }}
 
