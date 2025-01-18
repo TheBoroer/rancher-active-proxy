@@ -39,6 +39,7 @@ include /etc/nginx/vhost.d/default_server;
 {{- $token := .FIRST.Labels.GetValue "rap.server_tokens" "" }}
 {{- $body_size := .FIRST.Labels.GetValue "rap.client_max_body_size" "" }}
 {{- $client_body_buffer_size := .FIRST.Labels.GetValue "rap.client_body_buffer_size" "" }}
+{{- $client_body_temp_path := .FIRST.Labels.GetValue "rap.client_body_temp_path" "" }}
 {{- $le_bypass := .FIRST.Labels.GetValue "rap.le_bypass" "" }}
 {{- $timeout := .FIRST.Labels.GetValue "rap.timeout" "" }}
 
@@ -62,6 +63,9 @@ server {
 	{{- end }}
 	{{- if (ne $client_body_buffer_size "") }}
 	client_body_buffer_size {{$client_body_buffer_size}};
+	{{- end }}
+	{{- if (ne $client_body_temp_path "") }}
+	client_body_temp_path {{$client_body_temp_path}};
 	{{- end }}
 	access_log /var/log/nginx/access.log vhost;
 	location / {
