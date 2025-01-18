@@ -65,7 +65,7 @@ server {
   }
   {{- if $le_bypass }}
   location ^~ /.well-known/acme-challenge/ {
-		   	proxy_pass http://$host$request_uri;
+		proxy_pass http://$host$request_uri;
   }
   {{- end }}
 
@@ -140,10 +140,6 @@ server {
 		{{- end }}
 		{{- else }}
 		proxy_pass {{ trim $proto }}://{{ trim $host }};
-		
-		# needed for keepalive to work
-		proxy_http_version 1.1;
-        proxy_set_header Connection "";
 
 		{{- if $timeout }}
 		proxy_read_timeout {{ $timeout }}s;
@@ -198,10 +194,6 @@ server {
 		{{- end }}
 		{{- else }}
 		proxy_pass {{ trim $proto }}://{{ trim $host }};
-		
-		# needed for keepalive to work
-		proxy_http_version 1.1;
-        proxy_set_header Connection "";
 
 		{{- if $timeout }}
 		proxy_read_timeout {{ $timeout }}s;
@@ -301,6 +293,10 @@ proxy_set_header X-Forwarded-Proto $proxy_x_forwarded_proto;
 proxy_set_header X-Forwarded-Ssl $proxy_x_forwarded_ssl;
 proxy_set_header X-Forwarded-Port $proxy_x_forwarded_port;
 
+# needed for keepalive to work
+proxy_http_version 1.1;
+proxy_set_header Connection "";
+
 # Mitigate httpoxy attack (see README for details)
 proxy_set_header Proxy "";
 {{- end }}
@@ -331,8 +327,8 @@ server {
 	location /.well-known { # This allows proxy acme requests to pass through to another server.
 		proxy_pass http://{{ $acme_internal }}/.well-known;
 		proxy_set_header X-Real-IP $remote_addr;
-      		proxy_set_header Host $host;
-      		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+		proxy_set_header Host $host;
+		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 	}
 	{{- end }}
 }
