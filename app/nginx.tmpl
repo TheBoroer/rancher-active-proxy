@@ -4,7 +4,8 @@
 {{- if not .FIRST.Get -}}
 	upstream {{.HOST}} {
 	{{- if (ne $keepalive "") }}
-	keepalive $keepalive;
+	{{- if (ne $limit_req "") }}
+	keepalive {{$keepalive}};
 	{{- end }}
 {{- end -}}
 {{ if .ONLINE }}
