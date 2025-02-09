@@ -1,8 +1,11 @@
+{{- $keepalive := .FIRST.Labels.GetValue "rap.keepalive" "" }}
+
 {{ define "upstream" }}
 {{- if not .FIRST.Get -}}
 	upstream {{.HOST}} {
-	# TODO: move keepalive into a rap label
-	keepalive 32;
+	{{- if (ne $keepalive "") }}
+	keepalive $keepalive;
+	{{- end }}
 {{- end -}}
 {{ if .ONLINE }}
 	# Access through rancher managed network
