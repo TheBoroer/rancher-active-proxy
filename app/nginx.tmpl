@@ -1,7 +1,7 @@
 {{ define "upstream" }}
 {{- if not .FIRST.Get -}}
 	upstream {{.HOST}} {
-	{{- if (ne .KEEPALIVE "") }}
+	{{ if .KEEPALIVE }}
 	keepalive {{.KEEPALIVE}};
 	{{- end }}
 {{- end -}}
