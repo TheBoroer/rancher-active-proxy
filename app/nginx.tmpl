@@ -9,7 +9,8 @@
 	# Access through rancher managed network
 	server {{.IP}}:{{.PORT}} max_fails=1 fail_timeout=120s;
 {{- else }}
-	# {{.IP}} is not running or is unhealthy
+	# {{.IP}} might not be running or is unhealthy
+	server {{.IP}}:{{.PORT}} max_fails=1 fail_timeout=120s;
 {{- end }}
 {{ end }}
 
