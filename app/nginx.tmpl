@@ -10,7 +10,6 @@
 	server {{.IP}}:{{.PORT}} max_fails=1 fail_timeout=120s;
 {{- else }}
 	# {{.IP}} might not be running or is unhealthy
-	server {{.IP}}:{{.PORT}} max_fails=1 fail_timeout=120s;
 {{- end }}
 {{ end }}
 
