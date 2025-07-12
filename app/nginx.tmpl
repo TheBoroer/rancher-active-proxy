@@ -1,3 +1,7 @@
+# rancher-gen info
+# - metadata service variables: https://www.rancher.com/docs/rancher/v1.2/en/api/v2-beta/api-resources/container/
+# - to debug with rap container: curl -s http://rancher-metadata/latest/services/0/containers/0/health_state && echo ""
+
 {{ define "upstream" }}
 {{- if not .FIRST.Get -}}
 	upstream {{.HOST}} {
