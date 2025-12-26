@@ -35,6 +35,9 @@ function check_dh_group {
     check_writable_directory '/usr/share/nginx/html'
     check_dh_group
     
+    # Setup Cloudflare real IP configuration if enabled
+    /app/cloudflare_realip.sh setup || echo "Warning: Cloudflare real IP setup failed, continuing..."
+    
     #Recreating needed certs
     rancher-gen --onetime /app/letsencrypt.tmpl /app/letsencrypt.conf
 
@@ -66,5 +69,11 @@ function check_dh_group {
     rm /etc/crontabs/root
     : ${CRON="0 2 * * *"}
     (crontab -l 2>/dev/null; echo "$CRON /app/letsencrypt.sh") | crontab -
+    
+    # Add Cloudflare IP update cron if enabled
+    : ${CLOUDFLARE_CRON="0 4 * * 0"}
+    if [[ "${CLOUDFLARE_REALIP:-false}" == "true" ]] || [[ "${CLOUDFLARE_REALIP:-0}" == "1" ]]; then
+        (crontab -l 2>/dev/null; echo "$CLOUDFLARE_CRON /app/cloudflare_realip.sh update && nginx -s reload") | crontab -
+    fi
 	
 	exec "$@"

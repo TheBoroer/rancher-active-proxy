@@ -4,7 +4,7 @@ MAINTAINER Adrien M amaurel90@gmail.com
 ENV DEBUG=false RAP_DEBUG="info" 
 ARG VERSION_RANCHER_GEN="artifacts/master"
 
-RUN apk add --no-cache nano ca-certificates unzip wget certbot bash openssl
+RUN apk add --no-cache nano ca-certificates unzip wget certbot bash openssl curl
 
 # Install Forego & Rancher-Gen-RAP
 ADD https://github.com/jwilder/forego/releases/download/v0.16.1/forego /usr/local/bin/forego
@@ -28,6 +28,7 @@ WORKDIR /app/
 
 # Seting up repertories & Configure Nginx and apply fix for very long server names
 RUN chmod +x /app/letsencrypt.sh \
+    && chmod +x /app/cloudflare_realip.sh \
     && mkdir -p /etc/nginx/certs /etc/nginx/vhost.d /etc/nginx/conf.d /usr/share/nginx/html /etc/letsencrypt \
     && chmod u+x /app/remove 
 
