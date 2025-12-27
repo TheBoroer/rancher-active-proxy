@@ -1,5 +1,5 @@
 # rancher-gen info
-# - metadata service variables: https://www.rancher.com/docs/rancher/v1.2/en/api/v2-beta/api-resources/container/
+# - metadata service variables: https://www.rancher.com/docs/rancher/v1.6/en/api/v2-beta/api-resources/container/
 # - to debug with rap container: curl -s http://rancher-metadata/latest/services/0/containers/0/health_state && echo ""
 
 {{ define "upstream" }}
@@ -404,7 +404,7 @@ server {
 {{range $service := $services}}
 {{- $addrLen := len $service.Ports }}
 {{- range $cont := $service.Containers | filterHost $host_filter | filterLabel "rap.rap_name" $rap_name}}
-		{{- $online := (and (or (eq .Health "") (eq .Health "healthy")) (eq .State "running")) -}}
+		{{- $online := (and (or (eq .Health "") (eq .Health "healthy") (eq .Health "updating-healthy")) (eq .State "running")) -}}
 		{{- if $online }}
 			{{- $_ := $anyHealthy.Set true }}
 		{{- end }}
@@ -451,7 +451,7 @@ server {
 
 {{ range $cont := $conts }}
 {{- $addrLen := len $cont.Ports }}
-		{{- $online := (and (or (eq .Health "") (eq .Health "healthy")) (eq .State "running")) -}}
+		{{- $online := (and (or (eq .Health "") (eq .Health "healthy") (eq .Health "updating-healthy")) (eq .State "running")) -}}
 		{{- if $online }}
 			{{- $_ := $anyHealthy.Set true }}
 		{{- end }}
